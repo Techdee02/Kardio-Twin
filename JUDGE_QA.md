@@ -81,7 +81,7 @@
 > Each biometric gets a 0–100 component score based on deviation from the user's personalized baseline:
 > - **HRV (40% weight):** Measures autonomic nervous system health. A 0–15% decrease from baseline scores 80–100; 15–30% scores 50–80; 30–50% scores 20–50; >50% decrease scores 0–20.
 > - **Heart Rate (25%):** Measures cardiac load. A 0–10% increase from resting baseline scores 80–100; 10–25% scores 40–80; 25–50% scores 10–40.
-> - **SpO₂ (20%):** Absolute thresholds because oxygen saturation has universal clinical significance. ≥97% = 100, 95–97% = 90–100, 92–95% = 60–90, <88% = critical.
+> - **SpO₂ (20%):** Absolute thresholds because oxygen saturation has universal clinical significance. ≥97% = 100; 95–97% = 90–100; 92–95% = 60–90; 88–92% = 20–60 (concerning); <88% = 0–20 (critical).
 > - **Temperature (15%):** Deviation from baseline. ±0.3°C = 100, 0.3–0.8°C = 80, 0.8–1.5°C = 50, >1.5°C = 0.
 >
 > Final score: `0.40×HRV + 0.25×HR + 0.20×SpO₂ + 0.15×Temp`
@@ -299,7 +299,7 @@
 > No — one sensor, one finger, one session at a time. If someone starts a new session while another is active, the old session transitions to `ENDED` state. The hardware physically prevents concurrent use. For high-throughput screening (e.g., community health days), we'd deploy multiple stations.
 
 **Q71: What if someone has dark skin? Does that affect sensor accuracy?**
-> This is an important question. Historically, pulse oximeters have shown reduced accuracy in individuals with darker skin tones, with studies showing SpO₂ overestimation of 1–2% in some cases. The MAX30102 uses dual-wavelength (red + infrared) technology which partially mitigates this. Our system's personalized baseline calibration further reduces the impact — we're measuring *change* from your baseline, not comparing against a universal standard. However, we acknowledge this limitation and advocate for validation studies specifically with Nigerian populations.
+> This is an important question. Historically, pulse oximeters have shown reduced accuracy in individuals with darker skin tones — studies show the device may read SpO₂ 1–2% *higher* than the true value, meaning actual hypoxemia could be masked. This is a known patient-safety concern. The MAX30102 uses dual-wavelength (red + infrared) technology which partially mitigates this, and our station-based design with stable finger contact further reduces error. Critically, our personalized baseline calibration means we're measuring *change* from your personal baseline, not comparing against a universal standard — so even if your absolute SpO₂ reading is slightly off, the system still detects relative drops. However, we take this seriously: we advocate for validation studies specifically with Nigerian populations, and in clinical deployments, SpO₂ alerts should always prompt a cross-check with a clinical-grade device.
 
 ---
 
